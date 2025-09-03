@@ -1,24 +1,30 @@
-<h1>{{ country.name }}</h1>
-<img src="{{ country.flag_url }}" alt="Bandeira" width="80">
+{% extends "base.html" %}
+{% block title %}{{ country.name }} | Travel Agency{% endblock %}
 
-<p><strong>Região:</strong> {{ country.region }}</p>
-<p><strong>Subregião:</strong> {{ country.subregion }}</p>
-<p><strong>Capital:</strong> {{ country.capital }}</p>
-<p><strong>População:</strong> {{ country.population|default:"N/A" }}</p>
+{% block content %}
+  <h1 class="text-2xl font-bold mb-4">{{ country.name }}</h1>
 
-<hr>
+  <div class="flex items-center space-x-4 mb-6">
+    <img src="{{ country.flag_url }}" alt="{{ country.name }}" class="w-20 h-12 border">
+    <div>
+      <p><strong>Região:</strong> {{ country.region }}</p>
+      <p><strong>Subregião:</strong> {{ country.subregion }}</p>
+      <p><strong>Capital:</strong> {{ country.capital }}</p>
+      <p><strong>População:</strong> {{ country.population|default:"N/A" }}</p>
+    </div>
+  </div>
 
-<h2>Roteiros disponíveis</h2>
-<ul>
-  {% for itinerary in itineraries %}
-    <li>
-      <a href="{% url 'itinerary_detail' itinerary.id %}">
-        {{ itinerary.title }} ({{ itinerary.start_date }} → {{ itinerary.end_date }})
-      </a>
-    </li>
-  {% empty %}
-    <li>Nenhum roteiro cadastrado para este país.</li>
-  {% endfor %}
-</ul>
+  <hr class="my-4">
 
-<a href="{% url 'country_list' %}">← Voltar para lista de países</a>
+  <h2 class="text-xl font-semibold mb-2">✈️ Roteiros disponíveis</h2>
+  <ul class="space-y-2">
+    {% for itinerary in itineraries %}
+      <li class="p-3 bg-white rounded shadow hover:shadow-md flex justify-between">
+        <a href="{% url 'itinerary_detail' itinerary.id %}">{{ itinerary.title }}</a>
+        <a href="{% url 'itinerary_update' itinerary.id %}" class="text-blue-600 hover:underline">Editar</a>
+      </li>
+    {% empty %}
+      <li class="text-gray-500">Nenhum roteiro cadastrado para este país.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

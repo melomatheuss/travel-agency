@@ -1,31 +1,45 @@
-<h1>Países</h1>
+{% extends "base.html" %}
+{% block title %}Países | Travel Agency{% endblock %}
 
-<form method="get">
-  <input type="text" name="search" placeholder="Buscar país..." value="{{ request.GET.search }}">
-  <select name="region">
-    <option value="">Todas as regiões</option>
-    <option value="Africa">África</option>
-    <option value="Americas">Américas</option>
-    <option value="Asia">Ásia</option>
-    <option value="Europe">Europa</option>
-    <option value="Oceania">Oceania</option>
-  </select>
-  <select name="ordering">
-    <option value="name">Nome (A-Z)</option>
-    <option value="-name">Nome (Z-A)</option>
-    <option value="population">População (menor-maior)</option>
-    <option value="-population">População (maior-menor)</option>
-  </select>
-  <button type="submit">Filtrar</button>
-</form>
+{% block content %}
+  <h1 class="text-2xl font-bold mb-6">🌍 Países</h1>
+  
+  <form method="get" class="mb-4 flex flex-wrap gap-2">
+    <input type="text" name="search" placeholder="Buscar país..."
+           value="{{ request.GET.search }}"
+           class="border px-2 py-1 rounded w-48">
 
-<ul>
-  {% for country in countries %}
-    <li>
-      <img src="{{ country.flag_url }}" alt="Bandeira" width="30">
-      {{ country.name }} ({{ country.region }}) - População: {{ country.population }}
-    </li>
-  {% empty %}
-    <li>Nenhum país encontrado.</li>
-  {% endfor %}
-</ul>
+    <select name="region" class="border px-2 py-1 rounded">
+      <option value="">Todas as regiões</option>
+      <option value="Africa">África</option>
+      <option value="Americas">Américas</option>
+      <option value="Asia">Ásia</option>
+      <option value="Europe">Europa</option>
+      <option value="Oceania">Oceania</option>
+    </select>
+
+    <select name="ordering" class="border px-2 py-1 rounded">
+      <option value="name">Nome (A-Z)</option>
+      <option value="-name">Nome (Z-A)</option>
+      <option value="population">População (menor-maior)</option>
+      <option value="-population">População (maior-menor)</option>
+    </select>
+
+    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
+      Filtrar
+    </button>
+  </form>
+
+  <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for country in countries %}
+      <li class="p-3 bg-white rounded shadow hover:shadow-md">
+        <a href="{% url 'country_detail' country.cca2 %}" class="flex items-center space-x-2">
+          <img src="{{ country.flag_url }}" class="w-8 h-5" alt="Bandeira">
+          <span>{{ country.name }} ({{ country.region }})</span>
+        </a>
+      </li>
+    {% empty %}
+      <li class="text-gray-500">Nenhum país encontrado.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

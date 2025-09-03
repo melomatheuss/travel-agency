@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'countries',     
-    'itineraries',  
+    'itineraries',
 ]
 
 MIDDLEWARE = [

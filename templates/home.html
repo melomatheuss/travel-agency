@@ -1,65 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Agency</title>
-</head>
-<body>
-    <header>
-        <h1>Travel Agency</h1>
-        <p>Descubra destinos incríveis e planeje sua próxima viagem!</p>
-    </header>
+{% extends "base.html" %}
+{% block title %}Home | Travel Agency{% endblock %}
 
-    <main>
-        <section>
-            <h2>Nossa Plataforma</h2>
-            <p>Temos <strong>{{ total_countries }}</strong> países catalogados e <strong>{{ total_itineraries }}</strong> roteiros disponíveis.</p>
-        </section>
+{% block content %}
+  <h2 class="text-2xl font-bold mb-4">Bem-vindo à Travel Agency</h2>
 
-        <section>
-            <h2> Explore od Destinos</h2>
-            <a href="{% url 'country_list' %}">Ver todos os países →</a>
-            
-            <h3>Países em Destaque:</h3>
-            <ul>
-                {% for country in featured_countries %}
-                    <li>
-                        <a href="{% url 'country_detail' country.cca2 %}">
-                            <img src="{{ country.flag_url }}" alt="Bandeira" width="20">
-                            {{ country.name }} ({{ country.region }})
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
+  <section class="mb-6">
+    <p class="text-lg">Temos <strong>{{ total_countries }}</strong> países catalogados e 
+       <strong>{{ total_itineraries }}</strong> roteiros disponíveis.</p>
+  </section>
 
-        <section>
-            <h2>Roteiros de Viagem</h2>
-            <a href="{% url 'itinerary_list' %}">Ver todos os roteiros →</a>
-            <a href="{% url 'itinerary_create' %}">Criar novo roteiro →</a>
-            
-            <h3>Roteiros Recentes:</h3>
-            <ul>
-                {% for itinerary in recent_itineraries %}
-                    <li>
-                        <a href="{% url 'itinerary_detail' itinerary.id %}">
-                            {{ itinerary.title }} - {{ itinerary.country.name }}
-                        </a>
-                        ({{ itinerary.start_date }} → {{ itinerary.end_date }})
+  <section class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Países em destaque</h3>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {% for country in featured_countries %}
+        <div class="border rounded p-2 bg-white shadow hover:shadow-md">
+          <a href="{% url 'country_detail' country.cca2 %}" class="flex items-center space-x-2">
+            <img src="{{ country.flag_url }}" alt="Bandeira" class="w-8 h-6">
+            <span>{{ country.name }} ({{ country.region }})</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
 
-                        <a href="{% url 'itinerary_update' itinerary.id %}">Editar</a>
-
-                    </li>
-                {% empty %}
-                    <li>Nenhum roteiro cadastrado ainda. <a href="{% url 'itinerary_create' %}">Seja o primeiro!</a></li>
-                {% endfor %}
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>Travel Agency - Desafio Técnico Django</p>
-    </footer>
-</body>
-</html>
+  <section>
+    <h3 class="text-xl font-semibold mb-2">Roteiros Recentes</h3>
+    <ul class="space-y-2">
+      {% for itinerary in recent_itineraries %}
+        <li class="p-3 bg-white rounded shadow hover:shadow-md flex justify-between">
+          <a href="{% url 'itinerary_detail' itinerary.id %}">
+            {{ itinerary.title }} - {{ itinerary.country.name }}
+          </a>
+          <a href="{% url 'itinerary_update' itinerary.id %}" 
+             class="text-blue-600 hover:underline">Editar</a>
+        </li>
+      {% empty %}
+        <li class="text-gray-500">Nenhum roteiro cadastrado ainda. 
+          <a href="{% url 'itinerary_create' %}" class="text-blue-600 underline">
+            Seja o primeiro!
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

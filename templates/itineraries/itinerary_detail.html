@@ -1,23 +1,29 @@
-<h1>{{ itinerary.title }}</h1>
+{% extends "base.html" %}
+{% block title %}{{ itinerary.title }} | Travel Agency{% endblock %}
 
-<p><strong>País:</strong> {{ itinerary.country.name }}</p>
-<p><strong>Período:</strong> {{ itinerary.start_date }} → {{ itinerary.end_date }}</p>
-<p><strong>Preço:</strong> 
-  {% if itinerary.price %}
-    R$ {{ itinerary.price }}
-  {% else %}
-    Não informado
+{% block content %}
+  <h1 class="text-2xl font-bold mb-4">{{ itinerary.title }}</h1>
+
+  <div class="space-y-2 mb-4">
+    <p><strong>País:</strong> {{ itinerary.country.name }}</p>
+    <p><strong>Período:</strong> {{ itinerary.start_date }} → {{ itinerary.end_date }}</p>
+    <p><strong>Preço:</strong> 
+      {% if itinerary.price %}
+        R$ {{ itinerary.price }}
+      {% else %}
+        Não informado
+      {% endif %}
+    </p>
+    <p><strong>Descrição:</strong> {{ itinerary.description }}</p>
+  </div>
+
+  {% if itinerary.image %}
+    <img src="{{ itinerary.image.url }}" alt="{{ itinerary.title }}" class="w-1/2 rounded shadow mb-4">
   {% endif %}
-</p>
 
-<p><strong>Descrição:</strong></p>
-<p>{{ itinerary.description }}</p>
-
-{% if itinerary.image %}
-  <img src="{{ itinerary.image.url }}" alt="{{ itinerary.title }}" width="400">
-{% endif %}
-
-<hr>
-
-<a href="{% url 'itinerary_list' %}">← Voltar para lista de roteiros</a>
-<a href="{% url 'country_detail' itinerary.country.cca2 %}">Ver país relacionado</a>
+  <div class="space-x-4">
+    <a href="{% url 'itinerary_list' %}" class="text-blue-600 hover:underline">← Voltar para lista</a>
+    <a href="{% url 'country_detail' itinerary.country.cca2 %}" class="text-blue-600 hover:underline">Ver país</a>
+    <a href="{% url 'itinerary_update' itinerary.id %}" class="text-blue-600 hover:underline">Editar</a>
+  </div>
+{% endblock %}
