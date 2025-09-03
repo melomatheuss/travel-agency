@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency</title>
+</head>
+<body>
+    <header>
+        <h1>Travel Agency</h1>
+        <p>Descubra destinos incríveis e planeje sua próxima viagem!</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Nossa Plataforma</h2>
+            <p>Temos <strong>{{ total_countries }}</strong> países catalogados e <strong>{{ total_itineraries }}</strong> roteiros disponíveis.</p>
+        </section>
+
+        <section>
+            <h2> Explore od Destinos</h2>
+            <a href="{% url 'country_list' %}">Ver todos os países →</a>
+            
+            <h3>Países em Destaque:</h3>
+            <ul>
+                {% for country in featured_countries %}
+                    <li>
+                        <a href="{% url 'country_detail' country.cca2 %}">
+                            <img src="{{ country.flag_url }}" alt="Bandeira" width="20">
+                            {{ country.name }} ({{ country.region }})
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section>
+            <h2>Roteiros de Viagem</h2>
+            <a href="{% url 'itinerary_list' %}">Ver todos os roteiros →</a>
+            <a href="{% url 'itinerary_create' %}">Criar novo roteiro →</a>
+            
+            <h3>Roteiros Recentes:</h3>
+            <ul>
+                {% for itinerary in recent_itineraries %}
+                    <li>
+                        <a href="{% url 'itinerary_detail' itinerary.id %}">
+                            {{ itinerary.title }} - {{ itinerary.country.name }}
+                        </a>
+                        ({{ itinerary.start_date }} → {{ itinerary.end_date }})
+
+                        <a href="{% url 'itinerary_update' itinerary.id %}">Editar</a>
+
+                    </li>
+                {% empty %}
+                    <li>Nenhum roteiro cadastrado ainda. <a href="{% url 'itinerary_create' %}">Seja o primeiro!</a></li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Travel Agency - Desafio Técnico Django</p>
+    </footer>
+</body>
+</html>

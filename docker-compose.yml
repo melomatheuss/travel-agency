@@ -37,4 +37,4 @@ services:
       - DB_PORT=5432
 
 volumes:
-  postgres_data:
+  postgres_data: /var/lib/postgresql/data

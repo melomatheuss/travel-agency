@@ -3,10 +3,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+from .views import home_view
 from countries.views import country_list, country_detail
 from itineraries.views import itinerary_list, itinerary_detail,itinerary_create, itinerary_update
 
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
 
     path('countries/', country_list, name='country_list'),
