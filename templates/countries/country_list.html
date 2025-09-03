@@ -1,0 +1,31 @@
+<h1>Países</h1>
+
+<form method="get">
+  <input type="text" name="search" placeholder="Buscar país..." value="{{ request.GET.search }}">
+  <select name="region">
+    <option value="">Todas as regiões</option>
+    <option value="Africa">África</option>
+    <option value="Americas">Américas</option>
+    <option value="Asia">Ásia</option>
+    <option value="Europe">Europa</option>
+    <option value="Oceania">Oceania</option>
+  </select>
+  <select name="ordering">
+    <option value="name">Nome (A-Z)</option>
+    <option value="-name">Nome (Z-A)</option>
+    <option value="population">População (menor-maior)</option>
+    <option value="-population">População (maior-menor)</option>
+  </select>
+  <button type="submit">Filtrar</button>
+</form>
+
+<ul>
+  {% for country in countries %}
+    <li>
+      <img src="{{ country.flag_url }}" alt="Bandeira" width="30">
+      {{ country.name }} ({{ country.region }}) - População: {{ country.population }}
+    </li>
+  {% empty %}
+    <li>Nenhum país encontrado.</li>
+  {% endfor %}
+</ul>

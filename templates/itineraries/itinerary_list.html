@@ -1,0 +1,36 @@
+<h1>Roteiros de Viagem</h1>
+
+<form method="get">
+  <label>Filtrar por País:</label>
+  <select name="country">
+    <option value="">Todos</option>
+    {% for c in countries %}
+      <option value="{{ c.cca2 }}" {% if request.GET.country == c.cca2 %}selected{% endif %}>
+        {{ c.name }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <label>Data início :</label>
+  <input type="date" name="start_date" value="{{ request.GET.start_date }}">
+
+  <label>Data fim :</label>
+  <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+
+  <button type="submit">Filtrar</button>
+</form>
+
+<hr>
+
+<ul>
+  {% for itinerary in itineraries %}
+    <li>
+      <a href="{% url 'itinerary_detail' itinerary.id %}">
+        {{ itinerary.title }} - {{ itinerary.country.name }}
+      </a>
+      ({{ itinerary.start_date }} → {{ itinerary.end_date }})
+    </li>
+  {% empty %}
+    <li>Nenhum roteiro encontrado.</li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,23 @@
+<h1>{{ itinerary.title }}</h1>
+
+<p><strong>País:</strong> {{ itinerary.country.name }}</p>
+<p><strong>Período:</strong> {{ itinerary.start_date }} → {{ itinerary.end_date }}</p>
+<p><strong>Preço:</strong> 
+  {% if itinerary.price %}
+    R$ {{ itinerary.price }}
+  {% else %}
+    Não informado
+  {% endif %}
+</p>
+
+<p><strong>Descrição:</strong></p>
+<p>{{ itinerary.description }}</p>
+
+{% if itinerary.image %}
+  <img src="{{ itinerary.image.url }}" alt="{{ itinerary.title }}" width="400">
+{% endif %}
+
+<hr>
+
+<a href="{% url 'itinerary_list' %}">← Voltar para lista de roteiros</a>
+<a href="{% url 'country_detail' itinerary.country.cca2 %}">Ver país relacionado</a>

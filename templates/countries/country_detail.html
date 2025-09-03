@@ -1,0 +1,24 @@
+<h1>{{ country.name }}</h1>
+<img src="{{ country.flag_url }}" alt="Bandeira" width="80">
+
+<p><strong>Região:</strong> {{ country.region }}</p>
+<p><strong>Subregião:</strong> {{ country.subregion }}</p>
+<p><strong>Capital:</strong> {{ country.capital }}</p>
+<p><strong>População:</strong> {{ country.population|default:"N/A" }}</p>
+
+<hr>
+
+<h2>Roteiros disponíveis</h2>
+<ul>
+  {% for itinerary in itineraries %}
+    <li>
+      <a href="{% url 'itinerary_detail' itinerary.id %}">
+        {{ itinerary.title }} ({{ itinerary.start_date }} → {{ itinerary.end_date }})
+      </a>
+    </li>
+  {% empty %}
+    <li>Nenhum roteiro cadastrado para este país.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'country_list' %}">← Voltar para lista de países</a>
