@@ -1,6 +1,29 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Itinerary
 from countries.models import Country
+from .forms import ItineraryForm
+
+
+def itinerary_create(request):
+    if request.method == "POST":
+        form = ItineraryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("itinerary_list")
+    else:
+        form = ItineraryForm()
+    return render(request, "itineraries/itinerary_form.html", {"form": form})
+
+def itinerary_update(request, id):
+    itinerary = get_object_or_404(Itinerary, id=id)
+    if request.method == "POST":
+        form = ItineraryForm(request.POST, request.FILES, instance=itinerary)
+        if form.is_valid():
+            form.save()
+            return redirect("itinerary_detail", id=itinerary.id)
+    else:
+        form = ItineraryForm(instance=itinerary)
+    return render(request, "itineraries/itinerary_form.html", {"form": form, "itinerary": itinerary})
 
 def itinerary_list(request):
     country_code = request.GET.get("country", "")
