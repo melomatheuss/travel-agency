@@ -15,10 +15,16 @@ class ItineraryForm(forms.ModelForm):
             "image": "Imagem",
         }
         widgets = {
+            "start_date": forms.DateInput(
+                format='%d/%m/%Y',
+                attrs={"type": "date", "class": "w-full border px-3 py-2 rounded"}
+            ),
+            "end_date": forms.DateInput(
+                format='%d/%m/%Y',
+                attrs={"type": "date", "class": "w-full border px-3 py-2 rounded"}
+            ),
             "title": forms.TextInput(attrs={"class": "w-full border px-3 py-2 rounded"}),
             "country": forms.Select(attrs={"class": "w-full border px-3 py-2 rounded"}),
-            "start_date": forms.DateInput(attrs={"type": "date", "class": "w-full border px-3 py-2 rounded"}),
-            "end_date": forms.DateInput(attrs={"type": "date", "class": "w-full border px-3 py-2 rounded"}),
             "description": forms.Textarea(attrs={"rows": 4, "class": "w-full border px-3 py-2 rounded"}),
             "price": forms.NumberInput(attrs={"class": "w-full border px-3 py-2 rounded"}),
             "image": forms.FileInput(attrs={"class": "w-full border px-3 py-2 rounded"}),

@@ -85,4 +85,5 @@ docker-compose run web python manage.py createsuperuser
 Acesse no navegador:
 
 Página inicial → http://localhost:8000/
+
 Admin (se criou superusuário) → http://localhost:8000/admin/
